@@ -23,6 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping(UrlMapping.USERS)
 @RestController
 public class UserController {
+
     private final UserService userService;
     private final EntityConverter<User, UserDto> entityConverter;
 
