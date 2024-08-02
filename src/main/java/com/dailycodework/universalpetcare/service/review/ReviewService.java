@@ -34,15 +34,15 @@ public class ReviewService implements IReviewService{
             throw new IllegalArgumentException(FeedBackMessage.CANNOT_REVIEW);
         }
         //2. Check if the reviewer has previously submitted a review for this doctor.
-        Optional<Review> existingReview = reviewRepository.findByVeterinarianIdAndPatientId(veterinarianId, reviewerId);
-        if(existingReview.isPresent()) {
-            throw new UserAlreadyExistsException(FeedBackMessage.ALREADY_REVIEWED);
-        }
+//        Optional<Review> existingReview = reviewRepository.findByVeterinarianIdAndPatientId(veterinarianId, reviewerId);
+//        if(existingReview.isPresent()) {
+//            throw new UserAlreadyExistsException(FeedBackMessage.ALREADY_REVIEWED);
+//        }
         //3.Check if the reviewer has gotten a completed appointment with this doctor.
-        boolean hadCompletedAppointments =  appointmentRepository.existsByVeterinarianIdAndPatientIdAndStatus(veterinarianId, reviewerId, AppointmentStatus.COMPLETED);
-        if(!hadCompletedAppointments) {
-            throw new IllegalStateException(FeedBackMessage.NOT_ALLOWED);
-        }
+//        boolean hadCompletedAppointments =  appointmentRepository.existsByVeterinarianIdAndPatientIdAndStatus(veterinarianId, reviewerId, AppointmentStatus.COMPLETED);
+//        if(!hadCompletedAppointments) {
+//            throw new IllegalStateException(FeedBackMessage.NOT_ALLOWED);
+//        }
         //4 Get the veterinarian  from the database
         User veterinarian = userRepository.findById(veterinarianId).orElseThrow(()->new ResourceNotFoundException(FeedBackMessage.VET_OR_PATIENT_NOT_FOUND));
         //4 Get the patient from the database
@@ -81,7 +81,6 @@ public class ReviewService implements IReviewService{
     }
 
 
-    //2. Check and remove all relationships between the review and other users ( patient and veterinarian)
 
     @Override
     public void deleteReview(Long reviewerId) {

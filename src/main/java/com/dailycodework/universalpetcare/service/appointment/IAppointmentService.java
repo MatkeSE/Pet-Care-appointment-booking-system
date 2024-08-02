@@ -1,5 +1,6 @@
 package com.dailycodework.universalpetcare.service.appointment;
 
+import com.dailycodework.universalpetcare.dto.AppointmentDto;
 import com.dailycodework.universalpetcare.model.Appointment;
 import com.dailycodework.universalpetcare.request.AppointmentUpdateRequest;
 import com.dailycodework.universalpetcare.request.BookAppointmentRequest;
@@ -15,4 +16,7 @@ public interface IAppointmentService {
     void deleteAppointment(Long id);
     Appointment getAppointmentById(Long id);
     Appointment getAppointmentByNo(String appointmentNo);
+
+    List<AppointmentDto> getUserAppointments(Long userId);
+
 }

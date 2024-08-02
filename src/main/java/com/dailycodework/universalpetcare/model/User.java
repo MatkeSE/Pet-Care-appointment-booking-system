@@ -39,6 +39,7 @@ public class User {
     @Transient
     private List<Appointment> appointments= new ArrayList<>();
 
+
     @Transient
     private List<Review> reviews = new ArrayList<>();
 

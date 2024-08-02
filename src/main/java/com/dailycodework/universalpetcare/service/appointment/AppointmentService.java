@@ -1,6 +1,9 @@
 package com.dailycodework.universalpetcare.service.appointment;
 
 
+import com.dailycodework.universalpetcare.dto.AppointmentDto;
+import com.dailycodework.universalpetcare.dto.EntityConverter;
+import com.dailycodework.universalpetcare.dto.PetDto;
 import com.dailycodework.universalpetcare.enums.AppointmentStatus;
 import com.dailycodework.universalpetcare.exception.ResourceNotFoundException;
 import com.dailycodework.universalpetcare.model.Appointment;
@@ -30,6 +33,8 @@ public class AppointmentService implements IAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
     private final IPetService petService;
+    private final EntityConverter<Appointment, AppointmentDto> entityConverter;
+    private final EntityConverter<Pet, PetDto> petEntityConverter;
 
     @Transactional
     @Override
@@ -88,5 +93,18 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public Appointment getAppointmentByNo(String appointmentNo) {
         return appointmentRepository.findByAppointmentNo(appointmentNo);
+    }
+    @Override
+    public List<AppointmentDto> getUserAppointments(Long userId) {
+        List<Appointment> appointments = appointmentRepository.findAllByUserId(userId);
+        return appointments.stream()
+                .map(appointment -> {
+                    AppointmentDto appointmentDto = entityConverter.mapEntityToDto(appointment, AppointmentDto.class);
+                    List<PetDto> petDto = appointment.getPets()
+                            .stream()
+                            .map(pet -> petEntityConverter.mapEntityToDto(pet, PetDto.class)).toList();
+                    appointmentDto.setPets(petDto);
+                    return appointmentDto;
+                }).toList();
     }
 }
